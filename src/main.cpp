@@ -3,41 +3,19 @@
 #include "glad/glad.h"
 #include "glad/glad_wgl.h"
 
-#include "GLFW/glfw3.h"
-
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
 
+#include "window.hpp"
+
 #include <iostream>
 #include <math.h>
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
-const unsigned int SCR_WIDTH  = 800;
-const unsigned int SCR_HEIGHT = 600;
 
 int main
 (int argc, char** argv)
 {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_MAXIMIZED, true);
-
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "suika", NULL, NULL);
-
-    if (window == NULL)
-    {
-        std::cout << "failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-
-    glfwMakeContextCurrent(window);
-
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    Window window;
 
     ((BOOL (WINAPI*)(int)) wglGetProcAddress("wglSwapIntervalEXT"))(1);
 
@@ -117,10 +95,10 @@ int main
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplGlfw_InitForOpenGL(window.m_window, true);
     ImGui_ImplOpenGL3_Init();
 
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window.m_window))
     {
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -130,8 +108,8 @@ int main
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::Begin("hello");
-        ImGui::Text("hi");
+        ImGui::Begin("fps");
+        ImGui::Text("%d", (int) ImGui::GetIO().Framerate);
         ImGui::End();
 
         ImGui::EndFrame();
@@ -139,7 +117,7 @@ int main
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window.m_window);
 
         glfwPollEvents();
     }
@@ -150,18 +128,5 @@ int main
 
     glDeleteProgram(shader_program);
 
-    glfwTerminate();
-
     return 0;
-}
-
-void idk(GLFWwindow* window)
-{
-
-}
-
-void framebuffer_size_callback
-(GLFWwindow* window, int width, int height)
-{
-    glViewport(0, 0, width, height);
 }
