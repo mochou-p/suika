@@ -1,11 +1,7 @@
 // suika
 
 #include "program.hpp"
-#include "window.hpp"
-
-#include "imgui.h"
-#include "imgui_impl_opengl3.h"
-#include "imgui_impl_glfw.h"
+#include "ui.hpp"
 
 #include <math.h>
 
@@ -44,40 +40,19 @@ int main
 
     Program program(2, shaders);
 
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGui::StyleColorsDark();
-
-    ImGui_ImplGlfw_InitForOpenGL(window.m_window, true);
-    ImGui_ImplOpenGL3_Init();
+    Ui ui(window);
 
     while (!glfwWindowShouldClose(window.m_window))
     {
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glClear(GL_COLOR_BUFFER_BIT);
 
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-
-        ImGui::Begin("fps");
-        ImGui::Text("%d", (int) ImGui::GetIO().Framerate);
-        ImGui::End();
-
-        ImGui::EndFrame();
-        ImGui::Render();
-
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        ui.render();
 
         glfwSwapBuffers(window.m_window);
 
         glfwPollEvents();
     }
-
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
 
     return 0;
 }
