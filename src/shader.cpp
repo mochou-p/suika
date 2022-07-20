@@ -2,10 +2,23 @@
 
 #include "shader.hpp"
 
+const char* read_file
+(std::string filename)
+{
+    std::string code;
+    std::ifstream shader("res/" + filename);
+
+    std::getline(shader, code, '\0');
+
+    return code.c_str();
+};
+
 Shader::Shader
-(int type, const char* code)
+(int type, const char* filename)
 {
     int success;
+
+    const char* code = read_file(filename);
 
     m_shader = glCreateShader(type);
 
