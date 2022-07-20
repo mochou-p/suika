@@ -13,6 +13,8 @@ Window::Window
 
     m_window = glfwCreateWindow(m_width, m_height, "suika", nullptr, nullptr);
 
+    glfwMakeContextCurrent(m_window);
+
     glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 }
 

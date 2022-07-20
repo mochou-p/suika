@@ -40,7 +40,7 @@ int main
 
     Program program(2, shaders);
 
-    Ui ui(window);
+    Ui ui(&window);
 
     while (!glfwWindowShouldClose(window.m_window))
     {

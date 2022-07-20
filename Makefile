@@ -16,3 +16,5 @@ SUIKA    = $(CXX) $(CXXFLAGS) -o .\..\suika.exe $(FILES) *.cpp $(LDFLAGS)
 TARGET:
 	cd ".\src\" && $(SUIKA)
 	.\suika
+
+# temp: -O0, -Wall

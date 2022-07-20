@@ -2,16 +2,18 @@
 
 #include "ui.hpp"
 
-Ui::Ui
-(Window window)
-{
-    glfwMakeContextCurrent(window.m_window);
+#include "imgui.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui_impl_glfw.h"
 
+Ui::Ui
+(Window* window)
+{
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
-    ImGui_ImplGlfw_InitForOpenGL(window.m_window, true);
+    ImGui_ImplGlfw_InitForOpenGL(window->m_window, GLFW_TRUE);
     ImGui_ImplOpenGL3_Init();
 }
 
