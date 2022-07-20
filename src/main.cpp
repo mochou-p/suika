@@ -1,6 +1,6 @@
 // suika
 
-#include "shader.hpp"
+#include "program.hpp"
 #include "window.hpp"
 
 #include "imgui.h"
@@ -22,17 +22,10 @@ int main
     (
         GL_VERTEX_SHADER,
         "#version 330\n"
-        "const vec2 quad[4] ="
-            "vec2[4]"
-            "("
-                "vec2(-1.0, -1.0),"
-                "vec2( 1.0, -1.0),"
-                "vec2(-1.0,  1.0),"
-                "vec2( 1.0,  1.0)"
-            ");\n"
+        "layout (location = 0) in vec3 pos;\n"
         "void main()\n"
         "{\n"
-        "   gl_Position = vec4(quad[gl_VertexID], 1.0);\n"
+        "   gl_Position = vec4(pos, 1.0);\n"
         "}\0"
     );
 
@@ -43,28 +36,13 @@ int main
         "out vec4 FragColor;\n"
         "void main()\n"
         "{\n"
-        "    FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n"
+        "    FragColor = vec4(0.0, 1.0, 0.0, 1.0);\n"
         "}\0"
     );
 
-    int success;
+    Shader shaders[2] = { vertex, fragment };
 
-    unsigned int shader_program = glCreateProgram();
-    glAttachShader(shader_program, vertex.m_shader);
-    glAttachShader(shader_program, fragment.m_shader);
-    glLinkProgram(shader_program);
-    glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
-
-    if (!success)
-    {
-        char info_log[512];
-        glGetProgramInfoLog(shader_program, 512, NULL, info_log);
-        std::cout << "program link failed\n" << info_log << std::endl;
-    }
-
-    glUseProgram(shader_program);
-    glDeleteShader(vertex.m_shader);
-    glDeleteShader(fragment.m_shader);
+    Program program(2, shaders);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -100,8 +78,6 @@ int main
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-
-    glDeleteProgram(shader_program);
 
     return 0;
 }
