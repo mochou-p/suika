@@ -1,7 +1,7 @@
 # Suika
 
 ## Dependencies
-#### Provided in [/libs](https://github.com/vrecusko/suika/tree/master/libs "https://github.com/vrecusko/suika/tree/master/libs")
+#### Provided in [/lib](https://github.com/vrecusko/suika/tree/master/lib "https://github.com/vrecusko/suika/tree/master/lib")
 - [GLAD](https://github.com/Dav1dde/glad "https://github.com/Dav1dde/glad")
 - [GLFW](https://github.com/glfw/glfw "https://github.com/glfw/glfw")
 - [GLM](https://github.com/g-truc/glm "https://github.com/g-truc/glm")
