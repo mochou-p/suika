@@ -1,15 +1,12 @@
 // suika
 
-#include "glad/glad.h"
-#include "glad/glad_wgl.h"
+#include "shader.hpp"
+#include "window.hpp"
 
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
 
-#include "window.hpp"
-
-#include <iostream>
 #include <math.h>
 
 int main
@@ -17,17 +14,13 @@ int main
 {
     Window window;
 
+    gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+
     ((BOOL (WINAPI*)(int)) wglGetProcAddress("wglSwapIntervalEXT"))(1);
 
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
-    {
-        std::cout << "failed to initialize GLAD" << std::endl;
-        return -1;
-    }
-
-    int success;
-
-    const char* vertex_shader_source =
+    Shader vertex
+    (
+        GL_VERTEX_SHADER,
         "#version 330\n"
         "const vec2 quad[4] ="
             "vec2[4]"
@@ -40,43 +33,25 @@ int main
         "void main()\n"
         "{\n"
         "   gl_Position = vec4(quad[gl_VertexID], 1.0);\n"
-        "}\0";
-    
-    unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
-    glCompileShader(vertex_shader);
-    glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
+        "}\0"
+    );
 
-    if (!success)
-    {
-        char info_log[512];
-        glGetShaderInfoLog(vertex_shader, 512, NULL, info_log);
-        std::cout << "vertex shader compilation failed\n" << info_log << std::endl;
-    }
-
-    const char* fragment_shader_source =
+    Shader fragment
+    (
+        GL_FRAGMENT_SHADER,
         "#version 330\n"
         "out vec4 FragColor;\n"
         "void main()\n"
         "{\n"
         "    FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n"
-        "}\0";
-    
-    unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
-    glCompileShader(fragment_shader);
-    glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
+        "}\0"
+    );
 
-    if (!success)
-    {
-        char info_log[512];
-        glGetShaderInfoLog(fragment_shader, 512, NULL, info_log);
-        std::cout << "fragment shader compilation failed\n" << info_log << std::endl;
-    }
+    int success;
 
     unsigned int shader_program = glCreateProgram();
-    glAttachShader(shader_program, vertex_shader);
-    glAttachShader(shader_program, fragment_shader);
+    glAttachShader(shader_program, vertex.m_shader);
+    glAttachShader(shader_program, fragment.m_shader);
     glLinkProgram(shader_program);
     glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
 
@@ -88,8 +63,8 @@ int main
     }
 
     glUseProgram(shader_program);
-    glDeleteShader(vertex_shader);
-    glDeleteShader(fragment_shader);
+    glDeleteShader(vertex.m_shader);
+    glDeleteShader(fragment.m_shader);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();

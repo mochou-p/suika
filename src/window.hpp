@@ -8,10 +8,10 @@ class Window
         Window();
         ~Window();
 
-        Window(const Window&) = delete;
+        Window(const Window&)            = delete;
         Window& operator=(const Window&) = delete;
 
-        GLFWwindow* m_window = nullptr;
+        GLFWwindow* m_window;
 
     private:
         static void framebuffer_size_callback(GLFWwindow* window, int width, int height);

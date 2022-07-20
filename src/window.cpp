@@ -9,14 +9,13 @@ Window::Window
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_MAXIMIZED, true);
+    glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
     m_window = glfwCreateWindow(m_width, m_height, "suika", nullptr, nullptr);
 
     glfwMakeContextCurrent(m_window);
 
     glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
-
 }
 
 Window::~Window
