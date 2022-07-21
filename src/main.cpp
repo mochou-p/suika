@@ -36,5 +36,5 @@ int main
         glfwPollEvents();
     }
 
-    return EXIT_SUCCESS;
+    return 0;
 }

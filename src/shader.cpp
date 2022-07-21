@@ -6,7 +6,7 @@ const char* read_file
 (std::string filename)
 {
     std::string code;
-    std::ifstream shader("res/" + filename);
+    std::ifstream shader("res/shaders/" + filename);
 
     std::getline(shader, code, '\0');
 
