@@ -37,9 +37,11 @@ Program::~Program
 }
 
 void Program::render
-(GLuint VBO)
+(int count, GLuint VAO)
 {
+    glClear(GL_COLOR_BUFFER_BIT);
+
     glUseProgram(m_program);
-    glBindVertexArray(VBO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
 }
