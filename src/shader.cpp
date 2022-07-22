@@ -2,7 +2,7 @@
 
 #include "shader.hpp"
 
-const char* read_file
+std::string read_file
 (std::string filename)
 {
     std::string code;
@@ -14,15 +14,16 @@ const char* read_file
 };
 
 Shader::Shader
-(int type, const char* filename)
+(int type, std::string filename)
 {
     int success;
 
-    const char* code = read_file(filename);
+    std::string code = read_file(filename);
+    const GLchar* cstr = code.c_str();
 
     m_shader = glCreateShader(type);
 
-    glShaderSource(m_shader, 1, &code, NULL);
+    glShaderSource(m_shader, 1, &cstr, NULL);
     glCompileShader(m_shader);
     glGetShaderiv(m_shader, GL_COMPILE_STATUS, &success);
 

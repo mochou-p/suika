@@ -1,5 +1,7 @@
 // suika
 
+#pragma once
+
 #include "window.hpp"
 
 class Ui

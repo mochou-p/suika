@@ -24,8 +24,6 @@ Program::Program
         std::cout << log << std::endl;
     }
 
-    glUseProgram(m_program);
-
     for (int i = 0; i <= count; i++)
     {
         glDeleteShader(shaders[i].m_shader);
@@ -36,4 +34,12 @@ Program::~Program
 ()
 {
     glDeleteProgram(m_program);
+}
+
+void Program::render
+(GLuint VBO)
+{
+    glUseProgram(m_program);
+    glBindVertexArray(VBO);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }

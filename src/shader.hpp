@@ -1,5 +1,7 @@
 // suika
 
+#pragma once
+
 #include "glad/glad.h"
 #include "glad/glad_wgl.h"
 
@@ -9,8 +11,7 @@
 class Shader
 {
     public:
-        Shader(int type, const char* filename);
-        ~Shader() {};
+        Shader(int type, std::string filename);
 
         unsigned int m_shader;
 };
