@@ -51,11 +51,8 @@ int main
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(program.m_program);
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        program.render(VAO);
 
-        //program.render(VBO);
         ui.render();
 
         glfwSwapBuffers(window.m_window);
