@@ -10,7 +10,7 @@ class Program
         Program(int count, Shader shaders[]);
         ~Program();
 
-        void render(int count, GLuint VAO);
+        void render(int count, unsigned int VAO);
 
         unsigned int m_program;
 };

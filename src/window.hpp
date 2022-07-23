@@ -16,7 +16,4 @@ class Window
 
     private:
         static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
-        const unsigned short int m_width  = 800;
-        const unsigned short int m_height = 600;
 };

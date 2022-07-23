@@ -15,7 +15,7 @@ int main
     ((BOOL (WINAPI*)(int)) wglGetProcAddress("wglSwapIntervalEXT"))(1);
 
 
-    Shader shaders[] =
+    Shader shaders[2] =
     {
         Shader(GL_VERTEX_SHADER,   "shader.vert"),
         Shader(GL_FRAGMENT_SHADER, "shader.frag")
@@ -23,7 +23,9 @@ int main
 
     Program program(2, shaders);
 
-    float vertices[] =
+    Ui ui(&window);
+
+    const float vertices[12] =
     {
          1.0,  1.0, 0.0,
          1.0, -1.0, 0.0,
@@ -31,13 +33,13 @@ int main
         -1.0,  1.0, 0.0
     };
 
-    unsigned int indices[] =
+    const unsigned int indices[6] =
     {
         0, 1, 3,
         1, 2, 3
     };
 
-    GLuint VAO, VBO, EBO;
+    unsigned int VAO, VBO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -50,16 +52,20 @@ int main
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*) 0);
     glEnableVertexAttribArray(0);
-
+    
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    Ui ui(&window);
+    int u_screen = glGetUniformLocation(program.m_program, "u_screen");
+    int x, y;
 
     while (!glfwWindowShouldClose(window.m_window))
     {
+        glfwGetFramebufferSize(window.m_window, &x, &y);
+        glProgramUniform2f(program.m_program, u_screen, x, y);
+
         program.render(6, VAO);
 
         ui.render();

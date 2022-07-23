@@ -37,7 +37,7 @@ Program::~Program
 }
 
 void Program::render
-(int count, GLuint VAO)
+(int count, unsigned int VAO)
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
