@@ -10,5 +10,5 @@ class Ui
         Ui(Window* window);
         ~Ui();
 
-        void render();
+        void render() const;
 };

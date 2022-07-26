@@ -7,10 +7,10 @@
 class Program
 {
     public:
-        Program(int count, Shader shaders[]);
+        Program(int count, Shader* shaders);
         ~Program();
 
-        void render(int count, unsigned int VAO);
+        void render(int count, unsigned int VAO) const;
 
         unsigned int m_program;
 };

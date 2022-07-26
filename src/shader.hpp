@@ -6,7 +6,6 @@
 #include "glad/glad_wgl.h"
 
 #include <iostream>
-#include <fstream>
 
 class Shader
 {

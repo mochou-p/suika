@@ -10,6 +10,7 @@ Ui::Ui
 (Window* window)
 {
     IMGUI_CHECKVERSION();
+
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
@@ -22,11 +23,12 @@ Ui::~Ui
 {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
+
     ImGui::DestroyContext();
 }
 
 void Ui::render
-()
+() const
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -37,7 +39,7 @@ void Ui::render
     ImGui::End();
 
     ImGui::EndFrame();
-    ImGui::Render();
 
+    ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
