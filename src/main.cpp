@@ -56,15 +56,15 @@ int main
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    int window_x, window_y;
+    int window_width, window_height;
     int u_screen = glGetUniformLocation(program.m_program, "u_screen");
 
     int indices_count = sizeof(indices) / sizeof(unsigned int);
 
     while (!glfwWindowShouldClose(window.m_window))
     {
-        glfwGetFramebufferSize(window.m_window, &window_x, &window_y);
-        glProgramUniform2f(program.m_program, u_screen, window_x, window_y);
+        glfwGetFramebufferSize(window.m_window, &window_width, &window_height);
+        glProgramUniform2f(program.m_program, u_screen, window_width, window_height);
 
         program.render(indices_count, vao);
 

@@ -18,7 +18,16 @@ Window::Window
 
     glfwSwapInterval(1);
 
-    glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(m_window, _framebuffer_size_callback);
+    glfwSetCursorPosCallback(m_window, _cursor_position_callback);
+    glfwSetMouseButtonCallback(m_window, _mouse_button_callback);
+
+    if (windows == nullptr)
+    {
+        windows = (Window**) malloc(2 * sizeof(Window));
+    }
+
+    windows[window_count++] = this;
 }
 
 Window::~Window
@@ -30,7 +39,73 @@ Window::~Window
 }
 
 void Window::framebuffer_size_callback
+(int width, int height)
+{
+    glfwMakeContextCurrent(m_window);
+
+    glViewport(0, 0, width, height);
+}
+
+void Window::cursor_position_callback
+(double x_position, double y_position)
+{
+    if
+    (
+        m_mouse_left_down &&
+        (
+            x_position != m_mouse_x_position ||
+            y_position != m_mouse_y_position
+        )
+    )
+    {
+        std::cout << ".";
+    }
+
+    m_mouse_x_position = x_position;
+    m_mouse_y_position = y_position;
+}
+
+void Window::mouse_button_callback
+(int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT)
+    {
+        std::cout << action << std::endl;
+    }
+}
+
+void Window::_framebuffer_size_callback
 (GLFWwindow* window, int width, int height)
 {
-    glViewport(0, 0, width, height);
+    for (int i = 0; i <= window_count; i++)
+    {
+        if (window == Window::windows[i]->m_window)
+        {
+            windows[i]->framebuffer_size_callback(width, height);
+        }
+    }
+}
+
+void Window::_cursor_position_callback
+(GLFWwindow* window, double x_position, double y_position)
+{
+    for (int i = 0; i <= window_count; i++)
+    {
+        if (window == windows[i]->m_window)
+        {
+            windows[i]->cursor_position_callback(x_position, y_position);
+        }
+    }
+}
+
+void Window::_mouse_button_callback
+(GLFWwindow* window, int button, int action, int mods)
+{
+    for (int i = 0; i <= window_count; i++)
+    {
+        if (window == windows[i]->m_window)
+        {
+            windows[i]->mouse_button_callback(button, action, mods);
+        }
+    }
 }
