@@ -24,7 +24,11 @@ Window::Window
 
     if (windows == nullptr)
     {
-        windows = (Window**) malloc(2 * sizeof(Window));
+        windows = (Window**) malloc(1 + window_count * sizeof(Window));
+    }
+    else
+    {
+        windows = (Window**) realloc(windows, 1 + window_count * sizeof(Window));
     }
 
     windows[window_count++] = this;
@@ -70,7 +74,12 @@ void Window::mouse_button_callback
 {
     if (button == GLFW_MOUSE_BUTTON_LEFT)
     {
-        std::cout << action << std::endl;
+        if (action)
+        {
+            std::cout << "-";
+        }
+
+        m_mouse_left_down = (bool) action;
     }
 }
 
