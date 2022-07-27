@@ -79,5 +79,8 @@ int main
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ibo);
 
+    free(Window::windows);
+    free(Layer::layers);
+
     return 0;
 }

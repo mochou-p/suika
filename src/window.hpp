@@ -4,7 +4,7 @@
 
 #include "GLFW/glfw3.h"
 
-#include <iostream>
+#include "layer.hpp"
 
 class Window
 {
@@ -13,6 +13,8 @@ class Window
         ~Window();
 
         GLFWwindow* m_window;
+
+        inline static Window** windows = nullptr;
 
     private:
         void framebuffer_size_callback(int width, int height);
@@ -26,6 +28,5 @@ class Window
         static void _cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
         static void _mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
-        inline static Window** windows = nullptr;
         inline static int window_count = 0;
 };

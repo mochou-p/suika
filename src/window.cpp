@@ -55,18 +55,18 @@ void Window::cursor_position_callback
 {
     if
     (
-        m_mouse_left_down &&
-        (
-            x_position != m_mouse_x_position ||
-            y_position != m_mouse_y_position
-        )
+        x_position != m_mouse_x_position ||
+        y_position != m_mouse_y_position
     )
     {
-        std::cout << ".";
-    }
+        if (m_mouse_left_down)
+        {
+            Layer::_draw(x_position, y_position);
+        }
 
-    m_mouse_x_position = x_position;
-    m_mouse_y_position = y_position;
+        m_mouse_x_position = x_position;
+        m_mouse_y_position = y_position;
+    }
 }
 
 void Window::mouse_button_callback
@@ -74,10 +74,7 @@ void Window::mouse_button_callback
 {
     if (button == GLFW_MOUSE_BUTTON_LEFT)
     {
-        if (action)
-        {
-            std::cout << "-";
-        }
+        Layer::_draw(m_mouse_x_position, m_mouse_y_position);
 
         m_mouse_left_down = (bool) action;
     }
