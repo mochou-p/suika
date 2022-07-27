@@ -74,7 +74,10 @@ void Window::mouse_button_callback
 {
     if (button == GLFW_MOUSE_BUTTON_LEFT)
     {
-        Layer::_draw(m_mouse_x_position, m_mouse_y_position);
+        if (action)
+        {
+            Layer::_draw(m_mouse_x_position, m_mouse_y_position);
+        }
 
         m_mouse_left_down = (bool) action;
     }

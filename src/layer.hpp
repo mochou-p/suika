@@ -29,12 +29,12 @@ class Layer
 
         Stroke* m_data;
 
-        static void _draw(double x_position, double y_positoin);
+        static void _draw(double x_position, double y_position);
 
         inline static Layer** layers = nullptr;
 
     private:
-        void draw(double x_position, double y_positoin);
+        inline void draw(double x_position, double y_position);
 
         inline static int layer_count  =  0;
         inline static int active_layer = -1;
