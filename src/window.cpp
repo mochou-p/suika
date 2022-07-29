@@ -61,7 +61,7 @@ void Window::cursor_position_callback
     {
         if (m_mouse_left_down)
         {
-            Layer::_draw(x_position, y_position);
+            Layer::_draw(CONTINUE, x_position, y_position);
         }
 
         m_mouse_x_position = x_position;
@@ -74,10 +74,7 @@ void Window::mouse_button_callback
 {
     if (button == GLFW_MOUSE_BUTTON_LEFT)
     {
-        if (action)
-        {
-            Layer::_draw(m_mouse_x_position, m_mouse_y_position);
-        }
+        Layer::_draw(action, m_mouse_x_position, m_mouse_y_position);
 
         m_mouse_left_down = (bool) action;
     }

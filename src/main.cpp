@@ -22,6 +22,8 @@ int main
 
     Ui ui(&window);
 
+    Layer();
+
     const float vertices[] =
     {
         -1.0, -1.0, 0.0,
