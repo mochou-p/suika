@@ -22,14 +22,9 @@ Window::Window
     glfwSetCursorPosCallback(m_window, _cursor_position_callback);
     glfwSetMouseButtonCallback(m_window, _mouse_button_callback);
 
-    if (windows == nullptr)
-    {
-        windows = (Window**) malloc(1 + window_count * sizeof(Window));
-    }
-    else
-    {
-        windows = (Window**) realloc(windows, 1 + window_count * sizeof(Window));
-    }
+    windows = windows
+        ? windows = (Window**) realloc(windows, 1 + window_count * sizeof(Window))
+        : windows = (Window**) malloc(          1 + window_count * sizeof(Window));
 
     windows[window_count++] = this;
 }

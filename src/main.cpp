@@ -54,7 +54,7 @@ int main
     glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
+
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
@@ -82,7 +82,6 @@ int main
     glDeleteBuffers(1, &ibo);
 
     free(Window::windows);
-    free(Layer::layers);
 
     return 0;
 }
