@@ -10,7 +10,7 @@
 class Shader
 {
     public:
-        Shader(int type, std::string filename);
+        Shader(int type, const std::string& filename);
 
-        unsigned int m_shader;
+        unsigned int m_shader = 0;
 };

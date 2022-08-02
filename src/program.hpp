@@ -12,5 +12,5 @@ class Program
 
         void render(int count, unsigned int VAO) const;
 
-        unsigned int m_program;
+        unsigned int m_program = 0;
 };

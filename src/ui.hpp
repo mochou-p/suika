@@ -7,7 +7,7 @@
 class Ui
 {
     public:
-        Ui(Window* window);
+        explicit Ui(GLFWwindow* window);
         ~Ui();
 
         void render() const;

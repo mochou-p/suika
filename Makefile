@@ -15,5 +15,10 @@ LDFLAGS  = -L$(GLFW)/lib -lopengl32 -lglfw3 -lgdi32
 SUIKA    = $(CXX) $(CXXFLAGS) -o ../suika.exe $(FILES) *.cpp $(LDFLAGS)
 
 TARGET:
+	cls
 	cd "src/" && $(SUIKA)
 	./suika
+
+check:
+	cls
+	cppcheck --enable=all src/*

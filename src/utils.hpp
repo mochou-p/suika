@@ -4,4 +4,4 @@
 
 #include <fstream>
 
-const char* read_file(std::string filename);
+std::string read_file(const std::string& filename);

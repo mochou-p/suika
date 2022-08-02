@@ -12,17 +12,17 @@ int main
 
     Shader shaders[] =
     {
-        Shader(GL_VERTEX_SHADER,   "shader.vert"),
-        Shader(GL_FRAGMENT_SHADER, "shader.frag")
+        Shader(GL_VERTEX_SHADER,   "screen_quad.vert"),
+        Shader(GL_FRAGMENT_SHADER, "screen_quad.frag")
     };
 
     int shader_count = sizeof(shaders) / sizeof(Shader);
 
     Program program(shader_count, shaders);
 
-    Ui ui(&window);
+    Ui ui(window.m_window);
 
-    Layer();
+    Layer layer;
 
     const float vertices[] =
     {
@@ -80,8 +80,6 @@ int main
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ibo);
-
-    free(Window::windows);
 
     return 0;
 }

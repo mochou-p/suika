@@ -22,11 +22,7 @@ Window::Window
     glfwSetCursorPosCallback(m_window, _cursor_position_callback);
     glfwSetMouseButtonCallback(m_window, _mouse_button_callback);
 
-    windows = windows
-        ? windows = (Window**) realloc(windows, 1 + window_count * sizeof(Window))
-        : windows = (Window**) malloc(          1 + window_count * sizeof(Window));
-
-    windows[window_count++] = this;
+    s_windows[s_window_count++] = this;
 }
 
 Window::~Window
@@ -67,46 +63,28 @@ void Window::cursor_position_callback
 void Window::mouse_button_callback
 (int button, int action, int mods)
 {
-    if (button == GLFW_MOUSE_BUTTON_LEFT)
-    {
-        Layer::_draw(action, m_mouse_x_position, m_mouse_y_position);
+    Layer::_draw(action, m_mouse_x_position, m_mouse_y_position);
 
-        m_mouse_left_down = (bool) action;
-    }
+    m_mouse_left_down = static_cast<bool>(action);
 }
 
 void Window::_framebuffer_size_callback
 (GLFWwindow* window, int width, int height)
 {
-    for (int i = 0; i <= window_count; i++)
-    {
-        if (window == Window::windows[i]->m_window)
-        {
-            windows[i]->framebuffer_size_callback(width, height);
-        }
-    }
+    s_windows[s_active_window]->framebuffer_size_callback(width, height);
 }
 
 void Window::_cursor_position_callback
 (GLFWwindow* window, double x_position, double y_position)
 {
-    for (int i = 0; i <= window_count; i++)
-    {
-        if (window == windows[i]->m_window)
-        {
-            windows[i]->cursor_position_callback(x_position, y_position);
-        }
-    }
+    s_windows[s_active_window]->cursor_position_callback(x_position, y_position);
 }
 
 void Window::_mouse_button_callback
 (GLFWwindow* window, int button, int action, int mods)
 {
-    for (int i = 0; i <= window_count; i++)
+    if (button == GLFW_MOUSE_BUTTON_LEFT)
     {
-        if (window == windows[i]->m_window)
-        {
-            windows[i]->mouse_button_callback(button, action, mods);
-        }
+        s_windows[s_active_window]->mouse_button_callback(button, action, mods);
     }
 }

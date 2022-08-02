@@ -12,21 +12,25 @@ class Window
         Window();
         ~Window();
 
-        GLFWwindow* m_window;
-
-        inline static Window** windows = nullptr;
+        GLFWwindow* m_window = nullptr;
 
     private:
-        void framebuffer_size_callback(int width, int height);
-        void cursor_position_callback(double xpos, double ypos);
-        void mouse_button_callback(int button, int action, int mods);
+        void framebuffer_size_callback(int    width,  int    height);
+        void  cursor_position_callback(double xpos,   double ypos);
+        void     mouse_button_callback(int    button, int    action, int mods);
 
-        double m_mouse_x_position, m_mouse_y_position;
-        bool   m_mouse_left_down;
+        double m_mouse_x_position = 0.0;
+        double m_mouse_y_position = 0.0;
+        bool   m_mouse_left_down  = false;
 
-        static void _framebuffer_size_callback(GLFWwindow* window, int width, int height);
-        static void _cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
-        static void _mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+    public:
+        inline static Window* s_windows[2] = {nullptr, nullptr};
 
-        inline static int window_count = 0;
+    private:
+        static void _framebuffer_size_callback(GLFWwindow* window, int    width,  int    height);
+        static void  _cursor_position_callback(GLFWwindow* window, double xpos,   double ypos);
+        static void     _mouse_button_callback(GLFWwindow* window, int    button, int    action, int mods);
+
+        inline static int s_window_count  = 0;
+        inline static int s_active_window = 0;
 };

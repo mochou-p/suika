@@ -7,14 +7,14 @@
 #include "imgui_impl_glfw.h"
 
 Ui::Ui
-(Window* window)
+(GLFWwindow* window)
 {
     IMGUI_CHECKVERSION();
 
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
-    ImGui_ImplGlfw_InitForOpenGL(window->m_window, GLFW_TRUE);
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
 }
 
@@ -35,7 +35,7 @@ void Ui::render
     ImGui::NewFrame();
 
     ImGui::Begin("fps");
-    ImGui::Text("%d", (int) ImGui::GetIO().Framerate);
+    ImGui::Text("%d", static_cast<int>(ImGui::GetIO().Framerate)); // todo
     ImGui::End();
 
     ImGui::EndFrame();
