@@ -12,8 +12,8 @@ int main
 
     Shader shaders[] =
     {
-        Shader(GL_VERTEX_SHADER,   "screen_quad.vert"),
-        Shader(GL_FRAGMENT_SHADER, "screen_quad.frag")
+        Shader(GL_VERTEX_SHADER,   "color.vert"),
+        Shader(GL_FRAGMENT_SHADER, "color.frag")
     };
 
     int shader_count = sizeof(shaders) / sizeof(Shader);
@@ -58,16 +58,13 @@ int main
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    int window_width, window_height;
-    int u_screen = glGetUniformLocation(program.m_program, "u_screen");
+    int u_frag_color = glGetUniformLocation(program.m_program, "u_frag_color");
+    glProgramUniform4f(program.m_program, u_frag_color, 0.70588, 0.35294, 0.82353, 1.0);
 
     int indices_count = sizeof(indices) / sizeof(unsigned int);
 
     while (!glfwWindowShouldClose(window.m_window))
     {
-        glfwGetFramebufferSize(window.m_window, &window_width, &window_height);
-        glProgramUniform2f(program.m_program, u_screen, window_width, window_height);
-
         program.render(indices_count, vao);
 
         ui.render();

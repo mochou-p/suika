@@ -7,7 +7,7 @@ Program::Program
 {
     m_program = glCreateProgram();
 
-    for (int i = 0; i <= count; i++)
+    for (int i = count - 1; i >= 0; --i)
     {
         glAttachShader(m_program, shaders[i].m_shader);
     }
@@ -25,7 +25,7 @@ Program::Program
         std::cout << log << std::endl;
     }
 
-    for (int i = 0; i <= count; i++)
+    for (int i = count - 1; i >= 0; --i)
     {
         glDeleteShader(shaders[i].m_shader);
     }

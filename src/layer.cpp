@@ -27,7 +27,7 @@ void Layer::_draw
             break;
 
         case STOP:
-            (*static_cast<int*>(vpi))++;
+            ++(*static_cast<int*>(vpi));
             break;
 
         default:
