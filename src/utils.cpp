@@ -5,8 +5,11 @@
 std::string read_file
 (const std::string& filename)
 {
-    std::string content;
     std::ifstream file("res/shaders/" + filename);
+
+    assert(file.is_open());
+
+    std::string content;
 
     std::getline(file, content, '\0');
 

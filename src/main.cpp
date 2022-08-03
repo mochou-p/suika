@@ -24,7 +24,7 @@ int main
 
     Layer layer;
 
-    const float vertices[] =
+    const float screen_quad_vertices[] =
     {
         -1.0, -1.0, 0.0,
          1.0, -1.0, 0.0,
@@ -32,7 +32,7 @@ int main
         -1.0,  1.0, 0.0
     };
 
-    const unsigned int indices[] =
+    const unsigned int screen_quad_indices[] =
     {
         0, 1, 2,
         2, 3, 0
@@ -45,7 +45,7 @@ int main
     unsigned int vbo;
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(screen_quad_vertices), screen_quad_vertices, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
@@ -53,7 +53,7 @@ int main
     unsigned int ibo;
     glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(screen_quad_indices), screen_quad_indices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -61,7 +61,7 @@ int main
     int u_frag_color = glGetUniformLocation(program.m_program, "u_frag_color");
     glProgramUniform4f(program.m_program, u_frag_color, 0.70588, 0.35294, 0.82353, 1.0);
 
-    int indices_count = sizeof(indices) / sizeof(unsigned int);
+    int indices_count = sizeof(screen_quad_indices) / sizeof(unsigned int);
 
     while (!glfwWindowShouldClose(window.m_window))
     {

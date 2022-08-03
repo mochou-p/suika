@@ -2,15 +2,13 @@
 
 #include "shader.hpp"
 
-#include "utils.hpp"
-
 Shader::Shader
 (int type, const std::string& filename)
 {
     m_shader = glCreateShader(type);
 
     std::string _code = read_file(filename);
-    const char* code = _code.c_str();
+    const char*  code = _code.c_str();
 
     glShaderSource(m_shader, 1, &code, nullptr);
 
