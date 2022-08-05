@@ -3,6 +3,9 @@
 #include "program.hpp"
 #include "ui.hpp"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 int main
 (int argc, char** argv)
 {
@@ -12,8 +15,8 @@ int main
 
     Shader shaders[] =
     {
-        Shader(GL_VERTEX_SHADER,   "color.vert"),
-        Shader(GL_FRAGMENT_SHADER, "color.frag")
+        Shader(GL_VERTEX_SHADER,   "texture.vert"),
+        Shader(GL_FRAGMENT_SHADER, "texture.frag")
     };
 
     int shader_count = sizeof(shaders) / sizeof(Shader);
@@ -22,14 +25,13 @@ int main
 
     Ui ui(window.m_window);
 
-    Layer layer;
-
     const float screen_quad_vertices[] =
     {
-        -1.0, -1.0, 0.0,
-         1.0, -1.0, 0.0,
-         1.0,  1.0, 0.0,
-        -1.0,  1.0, 0.0
+        // xyz                // rgb              // st
+        -1.0f, -1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,
+         1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,
+         1.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
+        -1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f
     };
 
     const unsigned int screen_quad_indices[] =
@@ -39,33 +41,63 @@ int main
     };
 
     unsigned int vao;
+    unsigned int vbo;
+    unsigned int ibo;
     glGenVertexArrays(1, &vao);
+    glGenBuffers(1, &vbo);
+    glGenBuffers(1, &ibo);
+
     glBindVertexArray(vao);
 
-    unsigned int vbo;
-    glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(screen_quad_vertices), screen_quad_vertices, GL_STATIC_DRAW);
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-
-    unsigned int ibo;
-    glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(screen_quad_indices), screen_quad_indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    int u_frag_color = glGetUniformLocation(program.m_program, "u_frag_color");
-    glProgramUniform4f(program.m_program, u_frag_color, 0.70588, 0.35294, 0.82353, 1.0);
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int width, height, channels;
+    const char* filename = "res/images/test.png";
+    stbi_set_flip_vertically_on_load(1);
+    unsigned char*  data = stbi_load(filename, &width, &height, &channels, 0);
+
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "failed to load " << filename << std::endl;
+    }
+
+    free(data);
 
     int indices_count = sizeof(screen_quad_indices) / sizeof(unsigned int);
 
     while (!glfwWindowShouldClose(window.m_window))
     {
-        program.render(indices_count, vao);
+        program.render(indices_count, texture, vao);
 
         ui.render();
 

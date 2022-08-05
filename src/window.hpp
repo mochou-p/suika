@@ -4,8 +4,6 @@
 
 #include "GLFW/glfw3.h"
 
-#include "layer.hpp"
-
 class Window
 {
     public:

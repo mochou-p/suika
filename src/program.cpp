@@ -38,11 +38,18 @@ Program::~Program
 }
 
 void Program::render
-(int count, unsigned int VAO) const
+(int count, unsigned int texture, unsigned int VAO)
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
     glUseProgram(m_program);
+
+    int u_texture = glGetUniformLocation(m_program, "u_texture");
+    glUniform1i(u_texture, 0);
+
 
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);

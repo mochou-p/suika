@@ -52,7 +52,7 @@ void Window::cursor_position_callback
     {
         if (m_mouse_left_down)
         {
-            Layer::_draw(CONTINUE, x_position, y_position);
+            // draw
         }
 
         m_mouse_x_position = x_position;
@@ -63,7 +63,7 @@ void Window::cursor_position_callback
 void Window::mouse_button_callback
 (int button, int action, int mods)
 {
-    Layer::_draw(action, m_mouse_x_position, m_mouse_y_position);
+    // draw
 
     m_mouse_left_down = static_cast<bool>(action);
 }

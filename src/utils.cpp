@@ -7,7 +7,10 @@ std::string read_file
 {
     std::ifstream file("res/shaders/" + filename);
 
-    assert(file.is_open());
+    if (!file.is_open())
+    {
+        std::cout << "file res/shaders/" << filename << " does not exist" << std::endl;
+    }
 
     std::string content;
 
