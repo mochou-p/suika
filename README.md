@@ -1,5 +1,5 @@
 # Suika
-![Suika](https://i.imgur.com/MdFm6OJ.png "Suika")
+![Suika](https://i.imgur.com/9HalevX.png "Suika")
 
 ## Dependencies
 #### Provided in [/lib](https://github.com/vrecusko/suika/tree/master/lib "https://github.com/vrecusko/suika/tree/master/lib")

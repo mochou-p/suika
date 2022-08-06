@@ -1,10 +1,7 @@
 // suika
 
-#include "program.hpp"
+#include "texture.hpp"
 #include "ui.hpp"
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 
 int main
 (int argc, char** argv)
@@ -66,37 +63,13 @@ int main
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    int width, height, channels;
-    const char* filename = "res/images/test.png";
-    stbi_set_flip_vertically_on_load(1);
-    unsigned char*  data = stbi_load(filename, &width, &height, &channels, 0);
-
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "failed to load " << filename << std::endl;
-    }
-
-    free(data);
+    Texture test_texture("test.png");
 
     int indices_count = sizeof(screen_quad_indices) / sizeof(unsigned int);
 
     while (!glfwWindowShouldClose(window.m_window))
     {
-        program.render(indices_count, texture, vao);
+        program.render(indices_count, test_texture.m_id, vao);
 
         ui.render();
 
