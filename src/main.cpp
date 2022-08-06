@@ -20,11 +20,11 @@ int main
 
     Program program(shader_count, shaders);
 
-    Ui ui(window.m_window);
+    Ui ui(window.m_object);
 
     const float screen_quad_vertices[] =
     {
-        // xyz                // rgb              // st
+        // xyz                // rgb              // uv
         -1.0f, -1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,
          1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,
          1.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
@@ -67,13 +67,13 @@ int main
 
     int indices_count = sizeof(screen_quad_indices) / sizeof(unsigned int);
 
-    while (!glfwWindowShouldClose(window.m_window))
+    while (!glfwWindowShouldClose(window.m_object))
     {
         program.render(indices_count, test_texture.m_id, vao);
 
         ui.render();
 
-        glfwSwapBuffers(window.m_window);
+        glfwSwapBuffers(window.m_object);
 
         glfwPollEvents();
     }

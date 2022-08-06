@@ -5,36 +5,36 @@
 Program::Program
 (int count, Shader* shaders)
 {
-    m_program = glCreateProgram();
+    m_id = glCreateProgram();
 
     for (int i = count - 1; i >= 0; --i)
     {
-        glAttachShader(m_program, shaders[i].m_shader);
+        glAttachShader(m_id, shaders[i].m_id);
     }
 
     int success;
 
-    glLinkProgram(m_program);
-    glGetProgramiv(m_program, GL_LINK_STATUS, &success);
+    glLinkProgram(m_id);
+    glGetProgramiv(m_id, GL_LINK_STATUS, &success);
 
     if (!success)
     {
         char log[512];
-        glGetProgramInfoLog(m_program, 512, nullptr, log);
+        glGetProgramInfoLog(m_id, 512, nullptr, log);
 
         std::cout << log << std::endl;
     }
 
     for (int i = count - 1; i >= 0; --i)
     {
-        glDeleteShader(shaders[i].m_shader);
+        glDeleteShader(shaders[i].m_id);
     }
 }
 
 Program::~Program
 ()
 {
-    glDeleteProgram(m_program);
+    glDeleteProgram(m_id);
 }
 
 void Program::render
@@ -45,9 +45,9 @@ void Program::render
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
 
-    glUseProgram(m_program);
+    glUseProgram(m_id);
 
-    int u_texture = glGetUniformLocation(m_program, "u_texture");
+    int u_texture = glGetUniformLocation(m_id, "u_texture");
     glUniform1i(u_texture, 0);
 
 

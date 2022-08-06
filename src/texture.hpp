@@ -12,12 +12,13 @@ class Texture
         explicit Texture(const std::string& filename);
         ~Texture();
 
-        unsigned int   m_id;
+        unsigned int   m_id = 0;
 
-        std::string    m_filename;
+    private:
+        std::string    m_filename = "test.png";
 
-        unsigned char* m_data;
-        int            m_width;
-        int            m_height;
-        int            m_channels;
+        unsigned char* m_data     = nullptr;
+        int            m_width    = 0;
+        int            m_height   = 0;
+        int            m_channels = 0;
 };

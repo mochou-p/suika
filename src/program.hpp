@@ -12,5 +12,5 @@ class Program
 
         void render(int count, unsigned int texture, unsigned int VAO);
 
-        unsigned int m_program = 0;
+        unsigned int m_id = 0;
 };

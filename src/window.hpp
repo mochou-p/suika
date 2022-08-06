@@ -10,7 +10,10 @@ class Window
         Window();
         ~Window();
 
-        GLFWwindow* m_window = nullptr;
+        GLFWwindow* m_object = nullptr;
+
+        int m_width  = 0;
+        int m_height = 0;
 
     private:
         void framebuffer_size_callback(int    width,  int    height);

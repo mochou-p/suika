@@ -12,15 +12,15 @@ Window::Window
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
     glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
-    m_window = glfwCreateWindow(800, 600, "suika", nullptr, nullptr);
+    m_object = glfwCreateWindow(800, 600, "suika", nullptr, nullptr);
 
-    glfwMakeContextCurrent(m_window);
+    glfwMakeContextCurrent(m_object);
 
     glfwSwapInterval(1);
 
-    glfwSetFramebufferSizeCallback(m_window, _framebuffer_size_callback);
-    glfwSetCursorPosCallback(m_window, _cursor_position_callback);
-    glfwSetMouseButtonCallback(m_window, _mouse_button_callback);
+    glfwSetFramebufferSizeCallback(m_object, _framebuffer_size_callback);
+    glfwSetCursorPosCallback(m_object, _cursor_position_callback);
+    glfwSetMouseButtonCallback(m_object, _mouse_button_callback);
 
     s_windows[s_window_count++] = this;
 }
@@ -28,7 +28,7 @@ Window::Window
 Window::~Window
 ()
 {
-    glfwDestroyWindow(m_window);
+    glfwDestroyWindow(m_object);
 
     glfwTerminate();
 }
@@ -36,9 +36,10 @@ Window::~Window
 void Window::framebuffer_size_callback
 (int width, int height)
 {
-    glfwMakeContextCurrent(m_window);
-
     glViewport(0, 0, width, height);
+
+    m_width  = width;
+    m_height = height;
 }
 
 void Window::cursor_position_callback
