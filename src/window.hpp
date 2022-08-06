@@ -10,6 +10,10 @@ class Window
         Window();
         ~Window();
 
+        inline bool opened()       { return !glfwWindowShouldClose(m_object); }
+        inline void swap_buffers() {         glfwSwapBuffers(m_object);       }
+        inline void poll_events()  {         glfwPollEvents();                }
+
         GLFWwindow* m_object = nullptr;
 
         int m_width  = 0;
@@ -28,9 +32,9 @@ class Window
         inline static Window* s_windows[2] = {nullptr, nullptr};
 
     private:
-        static void _framebuffer_size_callback(GLFWwindow* window, int    width,  int    height);
-        static void  _cursor_position_callback(GLFWwindow* window, double xpos,   double ypos);
-        static void     _mouse_button_callback(GLFWwindow* window, int    button, int    action, int mods);
+        inline static void _framebuffer_size_callback(GLFWwindow* window, int    width,  int    height);
+        inline static void  _cursor_position_callback(GLFWwindow* window, double xpos,   double ypos);
+        inline static void     _mouse_button_callback(GLFWwindow* window, int    button, int    action, int mods);
 
         inline static int s_window_count  = 0;
         inline static int s_active_window = 0;

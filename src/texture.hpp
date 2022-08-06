@@ -10,7 +10,7 @@ class Texture
 {
     public:
         explicit Texture(const std::string& filename);
-        ~Texture();
+        ~Texture() {};
 
         unsigned int   m_id = 0;
 

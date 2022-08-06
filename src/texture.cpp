@@ -1,10 +1,12 @@
 // suika
 
 #define STB_IMAGE_IMPLEMENTATION
+
 #include "texture.hpp"
 
 Texture::Texture
 (const std::string& filename)
+: m_filename(filename)
 {
     glGenTextures(1, &m_id);
     glBindTexture(GL_TEXTURE_2D, m_id);
@@ -14,11 +16,7 @@ Texture::Texture
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    m_filename = "res/images/" + filename;
-
-    stbi_set_flip_vertically_on_load(1);
-
-    m_data = stbi_load(m_filename.c_str(), &m_width, &m_height, &m_channels, 0);
+    m_data = stbi_load(("res/images/" + m_filename).c_str(), &m_width, &m_height, &m_channels, 0);
 
     if (m_data)
     {
@@ -29,10 +27,6 @@ Texture::Texture
     {
         std::cout << "failed to load " << filename << std::endl;
     }
-}
 
-Texture::~Texture
-()
-{
     free(m_data);
 }

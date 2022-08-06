@@ -64,8 +64,6 @@ void Window::cursor_position_callback
 void Window::mouse_button_callback
 (int button, int action, int mods)
 {
-    // draw
-
     m_mouse_left_down = static_cast<bool>(action);
 }
 

@@ -25,10 +25,10 @@ int main
     const float screen_quad_vertices[] =
     {
         // xyz                // rgb              // uv
-        -1.0f, -1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,
-         1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,
-         1.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
-        -1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f
+        -1.0f, -1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 1.0f,
+         1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
+         1.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f,
+        -1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f
     };
 
     const unsigned int screen_quad_indices[] =
@@ -67,15 +67,14 @@ int main
 
     int indices_count = sizeof(screen_quad_indices) / sizeof(unsigned int);
 
-    while (!glfwWindowShouldClose(window.m_object))
+    while (window.opened())
     {
         program.render(indices_count, test_texture.m_id, vao);
 
         ui.render();
 
-        glfwSwapBuffers(window.m_object);
-
-        glfwPollEvents();
+        window.swap_buffers();
+        window.poll_events();
     }
 
     glDeleteVertexArrays(1, &vao);
