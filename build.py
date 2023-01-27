@@ -12,14 +12,15 @@ LIB      = "./lib"
 SRC      = "./src"
 
 GLFW     = f"{LIB}/GLFW"
+IMGUI    = f"{LIB}/IMGUI"
 
-SOURCES  = f"{SRC}/*.cpp"
+SOURCES  = f"{IMGUI}/*.cpp {SRC}/*.cpp"
 OUTPUT   = f"{BIN}/{APP}"
-HEADERS  = f"-I{INC} -I{GLFW}/include"
+HEADERS  = f"-I{INC} -I{GLFW}/include -I{IMGUI}"
 LINKS    = f"-L{GLFW}/lib -lglfw3 -lcomdlg32 -lopengl32 -lgdi32 -mwindows"
 
 CXX      = "g++"
-CXXFLAGS = "-std=c++11 -Wall -Wextra -Werror"
+CXXFLAGS = "-std=c++11 -Wall -Wextra -Werror -Wno-cast-function-type"
 
 BUILD    = f"{CXX} {CXXFLAGS} {SOURCES} -o {OUTPUT} {HEADERS} {LINKS}"
 
@@ -38,6 +39,7 @@ def main():
         except OSError:
             pass
 
+        print("-----------")
         return
 
     print("project compiled")
