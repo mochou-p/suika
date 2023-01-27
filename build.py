@@ -7,15 +7,16 @@ from os.path import isdir
 APP      = "suika"
 
 BIN      = "./bin"
+INC      = "./inc"
 SRC      = "./src"
 
-INPUT    = f"{SRC}/main.cpp"
+INPUT    = f"{SRC}/*.cpp"
 OUTPUT   = f"{BIN}/{APP}"
 
 CXX      = "g++"
-CXXFLAGS = "-std=c++11"
+CXXFLAGS = "-std=c++11 -Wall -Wextra -Werror"
 
-BUILD    = f"{CXX} {CXXFLAGS} {INPUT} -o {OUTPUT}"
+BUILD    = f"{CXX} {CXXFLAGS} {INPUT} -o {OUTPUT} -I{INC}"
 
 
 def main():
@@ -24,7 +25,10 @@ def main():
         mkdir(BIN)
 
     print("compiling..")
-    system(BUILD)
+    error = system(BUILD)
+
+    if error:
+        return
 
     print("project compiled")
 
