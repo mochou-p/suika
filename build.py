@@ -1,8 +1,16 @@
 #
 
-from os      import mkdir, rmdir, system
-from os.path import isdir
+from os         import getcwd, mkdir, rmdir, system
+from os.path    import abspath, exists, isdir
+from shutil     import rmtree
+from subprocess import run
+from sys        import argv
 
+
+USAGE    = "usage: 'python build.py [flags]'\n" \
+           "flags: c - compile\n"               \
+           "       r - run\n"                   \
+           "       x - clean"
 
 APP      = "suika"
 
@@ -25,25 +33,78 @@ CXXFLAGS = "-std=c++11 -Wall -Wextra -Werror -Wno-cast-function-type"
 BUILD    = f"{CXX} {CXXFLAGS} {SOURCES} -o {OUTPUT} {HEADERS} {LINKS}"
 
 
+c      = False  # compile
+r      = False  # run
+x      = False  # delete
+bindir = False
+
+
 def main():
-    if not isdir(BIN):
-        print(f"making directory '{BIN}'..")
-        mkdir(BIN)
-
-    print("compiling..")
-    error = system(BUILD)
-
-    if error:
-        try:
-            rmdir(BIN)
-        except OSError:
-            pass
-
-        print("-----------")
+    global c, r, x, bindir
+    if len(argv) != 2:
+        print(USAGE)
         return
 
-    print("project compiled")
+    c = "c" in argv[1]
+    r = "r" in argv[1]
+    x = "x" in argv[1]
+
+    if not c and not r and not x:
+        print(USAGE)
+        return
+
+    bindir = isdir(BIN)
+
+    if c:
+        if not bindir:
+            print(f"making directory '{BIN}'..")
+            mkdir(BIN)
+            bindir = True
+
+        print("compiling..")
+
+        if system(BUILD):
+            if bindir:
+                try:
+                    rmdir(BIN)
+                except:
+                    pass
+
+            return
+
+        print("project compiled")
+
+    if r:
+        app = f"{abspath(getcwd())}\{BIN[2::]}\{APP}.exe"
+
+        if not exists(app):
+            print("project is not built")
+            return
+
+        print("app running..")
+        run(app)
+        print("app closed")
+
+    if x:
+        if not bindir:
+            print("project is already clean")
+            return
+
+        print(f"removing directory '{BIN}'..")
+        rmtree(BIN)
+        bindir = False
+
+        print("project cleaned")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        if c and not r and bindir:
+            try:
+                rmdir(BIN)
+            except:
+                pass
+
+        print(":c")
