@@ -33,10 +33,10 @@ CXXFLAGS = "-std=c++11 -Wall -Wextra -Werror -Wno-cast-function-type"
 BUILD    = f"{CXX} {CXXFLAGS} {SOURCES} -o {OUTPUT} {HEADERS} {LINKS}"
 
 
-c      = False  # compile
-r      = False  # run
-x      = False  # delete
-bindir = False
+c        = False  # compile
+r        = False  # run
+x        = False  # delete
+bindir   = False
 
 
 def main():
