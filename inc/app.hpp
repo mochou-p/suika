@@ -5,7 +5,7 @@
 #ifndef __app_hpp_
 #define __app_hpp_
 
-#include "GLFW/glfw3.h"
+#include "window.hpp"
 
 class App
 {
@@ -16,7 +16,7 @@ public:
     void run();
 
 private:
-    GLFWwindow* m_window;
+    Window m_window;
 };
 
 #endif  // __app_hpp_

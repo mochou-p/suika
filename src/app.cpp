@@ -10,21 +10,10 @@
 
 App::App()
 {
-    glfwInit();
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-    m_window = glfwCreateWindow(800, 600, "suika", nullptr, nullptr);
-
-    glfwMakeContextCurrent(m_window);
-    glfwSwapInterval(1);
-
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
-    ImGui_ImplGlfw_InitForOpenGL(m_window, true);
+    ImGui_ImplGlfw_InitForOpenGL(m_window.m_handle, true);
     ImGui_ImplOpenGL3_Init("#version 130");
 }
 
@@ -34,13 +23,12 @@ App::~App()
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    glfwDestroyWindow(m_window);
     glfwTerminate();
 }
 
 void App::run()
 {
-    while (!glfwWindowShouldClose(m_window))
+    while (!glfwWindowShouldClose(m_window.m_handle))
     {
         glfwPollEvents();
 
@@ -56,6 +44,6 @@ void App::run()
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        glfwSwapBuffers(m_window);
+        glfwSwapBuffers(m_window.m_handle);
     }
 }

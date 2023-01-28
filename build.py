@@ -7,36 +7,40 @@ from subprocess import run
 from sys        import argv
 
 
-USAGE    = "usage: 'python build.py [flags]'\n" \
-           "flags: c - compile\n"               \
-           "       r - run\n"                   \
-           "       x - clean"
+USAGE      = "usage: 'python build.py <flags>'\n" \
+             "flags: c - compile\n"               \
+             "       r - run\n"                   \
+             "       x - clean"
 
-APP      = "suika"
+APP        = "suika"
 
-BIN      = "./bin"
-INC      = "./inc"
-LIB      = "./lib"
-SRC      = "./src"
+BIN        = "./bin"
+INC        = "./inc"
+LIB        = "./lib"
+SRC        = "./src"
 
-GLFW     = f"{LIB}/GLFW"
-IMGUI    = f"{LIB}/IMGUI"
+GLFW       = f"{LIB}/GLFW"
+IMGUI      = f"{LIB}/IMGUI"
 
-SOURCES  = f"{IMGUI}/*.cpp {SRC}/*.cpp"
-OUTPUT   = f"{BIN}/{APP}"
-HEADERS  = f"-I{INC} -I{GLFW}/include -I{IMGUI}"
-LINKS    = f"-L{GLFW}/lib -lglfw3 -lcomdlg32 -lopengl32 -lgdi32 -mwindows"
+SOURCES    = f"{IMGUI}/*.cpp {SRC}/*.cpp"
+OUTPUT     = f"{BIN}/{APP}"
+HEADERS    = f"-I{INC} -I{GLFW}/include -I{IMGUI}"
+LINKS      = f"-L{GLFW}/lib -lglfw3 -lcomdlg32 -lopengl32 -lgdi32 -mwindows"
 
-CXX      = "g++"
-CXXFLAGS = "-std=c++11 -Wall -Wextra -Werror -Wno-cast-function-type"
+STD        = "-std=c++17"
+WARNINGS   = "-Wall -Wextra -Werror"
+EXCEPTIONS = "-Wno-cast-function-type"
 
-BUILD    = f"{CXX} {CXXFLAGS} {SOURCES} -o {OUTPUT} {HEADERS} {LINKS}"
+CXX        = "g++"
+CXXFLAGS   = f"{STD} {WARNINGS} {EXCEPTIONS}"
+
+BUILD      = f"{CXX} {CXXFLAGS} {SOURCES} -o {OUTPUT} {HEADERS} {LINKS}"
 
 
-c        = False  # compile
-r        = False  # run
-x        = False  # delete
-bindir   = False
+c          = False
+r          = False
+x          = False
+bindir     = False
 
 
 def main():
@@ -67,7 +71,7 @@ def main():
             if bindir:
                 try:
                     rmdir(BIN)
-                except:
+                except OSError:
                     pass
 
             return
@@ -104,7 +108,7 @@ if __name__ == "__main__":
         if c and not r and bindir:
             try:
                 rmdir(BIN)
-            except:
+            except OSError:
                 pass
 
         print(":c")
