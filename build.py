@@ -5,7 +5,14 @@ from os.path    import abspath, exists, isdir
 from shutil     import rmtree
 from subprocess import run
 from sys        import argv
+from time       import time
 
+
+DEBUG        = 0
+RELEASE      = 1
+TESTING      = 2
+
+BUILD_MODE   = TESTING
 
 USAGE        = "usage: 'python build.py <flags>'\n" \
                "flags: c - compile\n"               \
@@ -25,18 +32,20 @@ IMGUI        = f"{LIB}/IMGUI"
 SOURCES      = f"{IMGUI}/*.cpp {SRC}/*.cpp"
 OUTPUT       = f"{BIN}/{APP}"
 HEADERS      = f"-I{INC} -I{GLFW}/include -I{IMGUI}"
-LINKS        = f"-L{GLFW}/lib -lglfw3 -lcomdlg32 -lopengl32 -lgdi32 -mwindows"
+LINKS        = f"-L{GLFW}/lib -lglfw3 -lcomdlg32 -lopengl32 -lgdi32" \
+               + (" -mwindows" if BUILD_MODE is RELEASE else "")
 
 STD          = "-std=c++17"
-OPTIMISATION = "-Og"
-DEBUG        = "-g3"
-WARNINGS     = "-Wall -Wextra -Werror"
-EXCEPTIONS   = "-Wno-cast-function-type"
+OPTIMISATION = ("-Og",                     "-O2",  "-O0")[BUILD_MODE]
+DEBUG        = ("-g3",                     "-g0",  "-g0")[BUILD_MODE]
+WARNINGS     = ("-Wall -Wextra -Werror",   *([""]   * 2))[BUILD_MODE]
+EXCEPTIONS   = ("-Wno-cast-function-type", *(["-w"] * 2))[BUILD_MODE]
+EXTRA        = "-pipe"
 
 CXX          = "g++"
-CXXFLAGS     = f"{STD} {OPTIMISATION} {DEBUG} {WARNINGS} {EXCEPTIONS}"
+CXXFLAGS     = f"{STD} {OPTIMISATION} {DEBUG} {WARNINGS} {EXCEPTIONS} {EXTRA}"
 
-BUILD        = f"{CXX} {CXXFLAGS} {SOURCES} -o {OUTPUT} {HEADERS} {LINKS}"
+BUILD_CMD    = f"{CXX} {CXXFLAGS} {SOURCES} -o {OUTPUT} {HEADERS} {LINKS}"
 
 
 c            = False
@@ -69,8 +78,9 @@ def main():
             bindir = True
 
         print("compiling..")
+        t = time()
 
-        if system(BUILD):
+        if system(BUILD_CMD):
             if bindir:
                 try:
                     rmdir(BIN)
@@ -79,7 +89,7 @@ def main():
 
             return
 
-        print("project compiled")
+        print(f"project compiled in {int(time() - t)} seconds")
 
     if r:
         app = f"{abspath(getcwd())}\{BIN[2::]}\{APP}.exe"

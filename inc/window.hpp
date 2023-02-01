@@ -7,16 +7,15 @@
 
 #include "GLFW/glfw3.h"
 
+#include <string>
+
 class Window
 {
 public:
-    Window();
+    Window(std::string);
     ~Window();
 
     GLFWwindow* m_handle;
-
-private:
-    inline static bool glfw_initialised;
 };
 
 #endif  // __window_hpp_

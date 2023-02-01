@@ -16,7 +16,7 @@ public:
     void run();
 
 private:
-    Window m_window;
+    Window* m_window;
 };
 
 #endif  // __app_hpp_
